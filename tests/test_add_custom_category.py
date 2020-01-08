@@ -1,33 +1,45 @@
 __author__ = 'miguel.freitas@checkmarx.com'
 
-from add_custom_category import is_str
-from add_custom_category import is_int
-from add_custom_category import is_conn
-from add_custom_category import read_file
-from add_custom_category import connect_to_db
-from add_custom_category import get_category_type_id_by_name
-from add_custom_category import add_category_type_by_name
-from add_custom_category import check_category_type_by_name
-from add_custom_category import delete_categories_by_category_type_id
+import os
+import sys
+import inspect
+
+currentdir = os.path.dirname(
+    os.path.abspath(
+        inspect.getfile(inspect.currentframe())
+    ))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
+import pytest
+from collections import namedtuple
+from add_custom_category import main
+from add_custom_category import get_args
+from add_custom_category import update_queries
+from add_custom_category import insert_queries
+from add_custom_category import get_categories_ids_by_category_type
+from add_custom_category import get_queries
+from add_custom_category import insert_new_categories
+from add_custom_category import get_categories_by_category_type_id_and_name
+from add_custom_category import update_category_for_query
+from add_custom_category import add_category_for_query
+from add_custom_category import get_category_id
+from add_custom_category import add_category
+from add_custom_category import clean_old_data
 from add_custom_category import \
     delete_categories_for_queries_by_category_type_id
-from add_custom_category import clean_old_data
-from add_custom_category import add_category
-from add_custom_category import get_category_id
-from add_custom_category import add_category_for_query
-from add_custom_category import update_category_for_query
-from add_custom_category import get_categories_by_category_type_id_and_name
-from add_custom_category import insert_new_categories
-from add_custom_category import get_queries
-from add_custom_category import get_categories_ids_by_category_type
-from add_custom_category import insert_queries
-from add_custom_category import update_queries
-from add_custom_category import get_args
-from add_custom_category import main
+from add_custom_category import delete_categories_by_category_type_id
+from add_custom_category import check_category_type_by_name
+from add_custom_category import add_category_type_by_name
+from add_custom_category import get_category_type_id_by_name
+from add_custom_category import connect_to_db
+from add_custom_category import read_file
+from add_custom_category import is_conn
+from add_custom_category import is_int
+from add_custom_category import is_str
 
-from collections import namedtuple
+
 # import pyodbc
-import pytest
 FILE = "groups.json"
 DBDRIVER = "SQL Server"
 DBU = "test"
