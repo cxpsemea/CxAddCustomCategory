@@ -30,7 +30,10 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest -vx
+        pytest -vx    
+    - name: List files in workspace
+      run: |
+        ls
     - name: Checkmarx SAST Scan
       uses: miguelfreitas93/checkmarx-github-action@v1.0.0
       with:
