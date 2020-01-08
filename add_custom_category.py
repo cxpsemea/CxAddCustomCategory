@@ -50,7 +50,7 @@ def connect_to_db(driver, server, user, password, database):
                 timeout=3)
             print("Connection to", database, "success")
             return conn
-        except pyodbc.OperationalError or pyodbc.InterfaceError as error:
+        except pyodbc.OperationalError or pyodbc.InterfaceError or pyodbc.Error as error:
             raise ConnectionError(error)
     else:
         raise AttributeError(
