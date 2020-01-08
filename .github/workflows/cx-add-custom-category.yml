@@ -34,7 +34,7 @@ jobs:
     - name: Checkmarx Action
       uses: miguelfreitas93/checkmarx-github-action@v1.0.0
       with:
-        cxServer: http://cxprivatecloud.checkmarx.net/
+        cxServer: https://cxprivatecloud.checkmarx.net/
         cxUsername: Miguel.Freitas@checkmarx.com
         cxPassword: ${{ secrets.CX_PASSWORD }}
         cxTeam: \CxServer\SP\EMEA\__psteam
