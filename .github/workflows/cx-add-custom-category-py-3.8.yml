@@ -40,7 +40,13 @@ jobs:
         cxPassword: ${{ secrets.CX_PASSWORD }}
         cxTeam: \CxServer\SP\EMEA\__psteam
         cxPreset: All
-        cxExcludeFolders: "tests,.vscode,.github,images,__pycache__,.pytest_cache"
+        cxExcludeFolders: "tests,.vscode,.github,images,__pycache__,.pytest_cache,cxcli"
         cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
         cxHigh: 0
         cxMedium: 0
+        cxLog: log.log
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: log.log
+        path: log.log
