@@ -1,5 +1,6 @@
 __author__ = 'miguel.freitas@checkmarx.com'
 
+import os
 import sys
 import argparse
 import pyodbc
@@ -25,8 +26,15 @@ def read_file(filename):
     if is_str(filename):
         if filename.endswith(".json"):
             try:
-                with open(filename, 'rb') as f:
-                    return json.load(f)
+                filename = os.path.basename(filename)
+                if os.path.isfile(filename):
+                    if os.access(filename, os.R_OK):
+                        with open(filename, 'rb') as f:
+                            return json.load(f)
+                    else:
+                        raise PermissionError("You don't have permissions to access this file")
+                else:
+                    raise FileNotFoundError("File Not Found")
             except FileNotFoundError:
                 raise FileNotFoundError("File Not Found")
         else:
