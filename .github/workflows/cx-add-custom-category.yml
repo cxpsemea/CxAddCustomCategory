@@ -43,4 +43,3 @@ jobs:
         cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
         cxHigh: 0
         cxMedium: 0
-        cxIncremental: true
