@@ -1,0 +1,43 @@
+{
+    "category": {
+        "name": "My Custom Category",
+        "groups": [
+            {
+                "name": "Category Critical",
+                "queryIds": [
+                    3717,
+                    2277,
+                    1678,
+                    3885
+                ]
+            },
+            {
+                "name": "Category High",
+                "queryIds": [
+                    1670,
+                    1672,
+                    630,
+                    633
+                ]
+            },
+            {
+                "name": "Category Medium",
+                "queryIds": [
+                    628,
+                    4593,
+                    5370,
+                    639
+                ]
+            },
+            {
+                "name": "Category Low",
+                "queryIds": [
+                    1671,
+                    627,
+                    3896,
+                    3771
+                ]
+            }
+        ]
+    }
+}
