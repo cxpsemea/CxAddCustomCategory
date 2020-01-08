@@ -297,17 +297,12 @@ def insert_queries(conn, category_id, queries):
         i = 0
         for query in queries:
             query_id = query[0]
-            is_deprecated = query[10]
             percentage = round((i * 100) / len(queries), 0)
-            if is_deprecated == 0:
-                print("Inserting Query", query_id, "...", percentage, "%")
-                cursor.execute("INSERT INTO dbo.CategoryForQuery \
-                    (QueryId,CategoryId) VALUES(?,?)",
-                               (query_id, category_id))
-                conn.commit()
-            else:
-                print("Query", query_id, "is deprecated", "...",
-                      percentage, "%")
+            print("Inserting Query", query_id, "...", percentage, "%")
+            cursor.execute("INSERT INTO dbo.CategoryForQuery \
+                (QueryId,CategoryId) VALUES(?,?)",
+                            (query_id, category_id))
+            conn.commit()
             i = i + 1
     else:
         raise AttributeError(
@@ -320,13 +315,8 @@ def update_queries(conn, category_id, queries):
         i = 0
         for query in queries:
             query_id = query[0]
-            is_deprecated = query[10]
             percentage = round((i * 100) / len(queries), 0)
-            if is_deprecated == 0:
-                update_category_for_query(conn, category_id, query_id)
-            else:
-                print("Query", query_id, "is deprecated", "...",
-                      percentage, "%")
+            update_category_for_query(conn, category_id, query_id)
             i = i + 1
     else:
         raise AttributeError(
