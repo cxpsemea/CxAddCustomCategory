@@ -40,3 +40,5 @@ jobs:
         cxTeam: \CxServer\SP\EMEA\__psteam
         cxExcludeFolders: "tests,.vscode,.github,images,__pycache__,.pytest_cache"
         cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
+        cxHigh: 0
+        cxMedium: 0
