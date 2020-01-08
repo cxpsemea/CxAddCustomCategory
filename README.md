@@ -74,7 +74,7 @@ This Python script contains some dependencies that you can find in **"requiremen
 pyodbc==4.0.28
 ```
 
-Before executing the Python script is required to install the dependencies, with following command:
+Before executing the Python script is required to install the dependencies, with following command (assure you have CMD opened with Admin permissions, if required):
 
 ```sh
 pip install -r requirements.txt
