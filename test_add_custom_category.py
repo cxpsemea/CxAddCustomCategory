@@ -11,6 +11,7 @@ from add_custom_category import get_args
 from add_custom_category import main
 
 from collections import namedtuple
+import pyodbc
 import pytest
 FILE = "groups.json"
 DBDRIVER = "SQL Server"
@@ -93,16 +94,24 @@ def test_connect_to_db():
                        match="server | user | password | database \
                            were not provided"):
         assert connect_to_db("", "", "", "", "")
-    with pytest.raises(ConnectionError):
+    with pytest.raises((ConnectionError, pyodbc.Error)):
         assert connect_to_db(DBDRIVER, DBS, DBU, DBP, DBD)
 
 
 def test_get_category_type_id_by_name():
-    assert get_category_type_id_by_name("", "")
     with pytest.raises(AttributeError,
                        match="Connection object or Category Name \
-                           was not provided"):
+                was not provided"):
         assert get_category_type_id_by_name(None, None)
+        assert get_category_type_id_by_name(True, True)
+        assert get_category_type_id_by_name(False, False)
+        assert get_category_type_id_by_name(0, 0)
+        assert get_category_type_id_by_name(1, 1)
+        assert get_category_type_id_by_name(-1, -1)
+        assert get_category_type_id_by_name(1.1, 1.1)
+        assert get_category_type_id_by_name([], [])
+        assert get_category_type_id_by_name({}, {})
+        assert get_category_type_id_by_name("", "")
 
 
 def test_get_args():

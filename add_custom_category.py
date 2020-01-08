@@ -73,7 +73,8 @@ def get_category_type_id_by_name(conn, category_type_name):
             return category_type_id
     else:
         raise AttributeError(
-            "Connection object or Category Name was not provided")
+            "Connection object or Category Name \
+                was not provided")
 
 
 def add_category_type_by_name(conn, category_type_name):
