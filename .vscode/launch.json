@@ -15,8 +15,19 @@
             "type": "python",
             "request": "launch",
             "module": "pytest",
-            "args": ["-vx"],
-            "program": "${workspaceFolder}/unit_test_add_custom_category.py"
+            "args": [
+                "-vx"
+            ]
         },
+        {
+            "name": "Run lint",
+            "type": "python",
+            "request": "launch",
+            "module": "flake8",
+            "args": [
+                "--count",
+                "--statistics"
+            ]
+        }
     ]
 }
