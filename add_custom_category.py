@@ -283,13 +283,13 @@ def get_args():
     args_parser = argparse.ArgumentParser(
         description='Add Custom Category to CxDB')
     args_parser.add_argument(
-        '-dbu', '--dbuser', help='DB Username', required=True)
+        '-dbu', '--dbuser', help='Checkmarx MSSQL DB Username', required=True)
     args_parser.add_argument('-dbp', '--dbpassword',
-                             help='DB Password', required=True)
+                             help='Checkmarx MSSQL DB Password', required=True)
     args_parser.add_argument('-dbs', '--dbserver',
-                             help='DB Server URL', required=True)
+                             help='Checkmarx MSSQL DB Server URL', required=True)
     args_parser.add_argument('-fg', '--file_groups',
-                             help='Groups File Name', required=True)
+                             help='Categories and Queries Mapping File', required=True)
     return args_parser.parse_args()
 
 

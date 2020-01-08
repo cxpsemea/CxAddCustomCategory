@@ -9,12 +9,13 @@ Python script to add custom Category to Checkmarx SAST
 
 For using this script, there is a set of inputs that are required to be passed as argument to it, such as:
 
-| Argument  | Value (Example) | Description | Type | Is Required* |
+| Flag | Arg. Value (Example) | Description | Type | Is Required* |
 | ------------- | ------------- | ------------- |------------- | ------------- |
 | -dbu,--dbuser | miguel | Checkmarx MSSQL DB Username | String | Yes* |
 | -dbp,--dbpassword | ****** | Checkmarx MSSQL DB Password | Secure String | Yes* |
 | -dbs,--dbserver | MIGUEL\CHECKMARX | Checkmarx MSSQL DB Server URL | String | Yes* |
 | -fg,--file_groups | **groups.json** | Categories and Queries Mapping File | String | Yes* |
+| -h,--help |  | Access Help Manual |  | No |
 
 **groups.json** content is also considered as an input, which requires to contain the following structure:
 
@@ -80,7 +81,28 @@ pip install -r requirements.txt
 
 # Execution
 
-Command Example:
+Command Help Example:
+
+```sh
+> python add_custom_category.py -h
+usage: add_custom_category.py [-h] -dbu DBUSER -dbp DBPASSWORD -dbs DBSERVER -fg FILE_GROUPS
+
+Add Custom Category to CxDB
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -dbu DBUSER, --dbuser DBUSER
+                        Checkmarx MSSQL DB Username
+  -dbp DBPASSWORD, --dbpassword DBPASSWORD
+                        Checkmarx MSSQL DB Password
+  -dbs DBSERVER, --dbserver DBSERVER
+                        Checkmarx MSSQL DB Server URL
+  -fg FILE_GROUPS, --file_groups FILE_GROUPS
+                        Categories and Queries Mapping File
+```
+
+
+Command Execution Example:
 
 ```sh
 python add_custom_category.py -dbu miguel -dbp ****** -dbs MIGUELFR-LAPTOP\CHECKMARX -fg groups.json
