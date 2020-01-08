@@ -1,7 +1,6 @@
 __author__ = 'miguel.freitas@checkmarx.com'
 
-from add_custom_category import *
-import pyodbc
+from add_custom_category import is_str, is_int, is_conn, read_file
 import pytest
 FILE = "groups.json"
 
@@ -50,7 +49,7 @@ def test_is_conn():
     # Missing pyodbc.Connection test
 
 
-def test_is_conn():
+def test_read_file():
     with pytest.raises(AttributeError, match="No Filename provided"):
         assert read_file(None)
         assert read_file(True)

@@ -27,7 +27,7 @@ def read_file(filename):
             except FileNotFoundError:
                 raise FileNotFoundError("File Not Found")
         else:
-           raise AttributeError("File should have \".json\" extension") 
+            raise AttributeError("File should have \".json\" extension")
     else:
         raise AttributeError("No Filename provided")
 
