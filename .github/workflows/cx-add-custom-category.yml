@@ -31,3 +31,12 @@ jobs:
     - name: Test with pytest
       run: |
         pytest -vx
+    - name: Checkmarx Action
+      uses: miguelfreitas93/checkmarx-github-action@v1.0.0
+      with:
+        cxServer: http://cxprivatecloud.checkmarx.net/
+        cxUsername: Miguel.Freitas@checkmarx.com
+        cxPassword: ${{ secrets.CX_PASSWORD }}
+        cxTeam: \CxServer\SP\EMEA\__psteam
+        cxExcludeFolders: "tests,.vscode,.github,images"
+        cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
