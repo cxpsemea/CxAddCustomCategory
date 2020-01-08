@@ -68,9 +68,10 @@ For using this script, there is a set of inputs that are required to be passed a
 
 # Dependencies
 
-| Subject | Dependency | Version | 
+| Subject | Dependency | Versions | 
 | ------------- | ------------- | ------------- |
-| Language | Python | 3.8 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.8/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions),</br> 3.7 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.7/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions),</br> 3.6 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.6/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)| 
+| Checkmarx | Checkmarx SAST | 8.8</br>8.9 |
+| Language | Python | 3.8 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.8/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)</br>3.7 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.7/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)</br>3.6 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.6/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)| 
 | requirements.txt | <a href="https://pypi.org/project/pyodbc/">pyodbc</a> | 4.0.28 | 
 | Database | MSSQL Driver | SQL Server, but is configurable as argument |
 | Package Installer | pip | Relative to Python version |
