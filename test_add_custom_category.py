@@ -94,7 +94,7 @@ def test_connect_to_db():
                        match="server | user | password | database \
                            were not provided"):
         assert connect_to_db("", "", "", "", "")
-    with pytest.raises(ConnectionError):
+    with pytest.raises((ConnectionError, pyodbc.InterfaceError, pyodbc.Error)):
         assert connect_to_db(DBDRIVER, DBS, DBU, DBP, DBD)
 
 
