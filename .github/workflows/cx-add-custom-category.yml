@@ -38,7 +38,9 @@ jobs:
         cxUsername: Miguel.Freitas@checkmarx.com
         cxPassword: ${{ secrets.CX_PASSWORD }}
         cxTeam: \CxServer\SP\EMEA\__psteam
+        cxPreset: All
         cxExcludeFolders: "tests,.vscode,.github,images,__pycache__,.pytest_cache"
         cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
         cxHigh: 0
         cxMedium: 0
+        cxIncremental: true
