@@ -9,13 +9,14 @@ Python script to add custom Category to Checkmarx SAST
 
 For using this script, there is a set of inputs that are required to be passed as argument to it, such as:
 
-| Flag | Arg. Value (Example) | Description | Type | Is Required* |
-| ------------- | ------------- | ------------- |------------- | ------------- |
-| -dbu,--dbuser | miguel | Checkmarx MSSQL DB Username | String | Yes* |
-| -dbp,--dbpassword | ****** | Checkmarx MSSQL DB Password | Secure String | Yes* |
-| -dbs,--dbserver | MIGUEL\CHECKMARX | Checkmarx MSSQL DB Server URL | String | Yes* |
-| -fg,--file_groups | **groups.json** | Categories and Queries Mapping File | String | Yes* |
-| -h,--help |  | Access Help Manual |  | No |
+| Flag | Arg. Value (Example) | Description | Type | Is Required* | Default |
+| ------------- | ------------- | ------------- |------------- | ------------- | ------------- |
+| -dbu,--dbuser | miguel | Checkmarx MSSQL DB Username | String | Yes* | |
+| -dbp,--dbpassword | ****** | Checkmarx MSSQL DB Password | Secure String | Yes* | |
+| -dbs,--dbserver | MIGUEL\CHECKMARX | Checkmarx MSSQL DB Server URL | String | Yes* | |
+| -fg,--file_groups | **groups.json** | Categories and Queries Mapping File | String | Yes* | |
+| -dbd,--dbdriver | SQL Server | MSSQL DB Driver| String | No | SQL Server |
+| -h,--help |  | Access Help Manual |  | No | |
 
 **groups.json** content is also considered as an input, which requires to contain the following structure:
 

@@ -13,6 +13,7 @@ from add_custom_category import main
 from collections import namedtuple
 import pytest
 FILE = "groups.json"
+DBDRIVER = "SQL Server"
 DBU = "test"
 DBP = "test"
 DBS = "TESTSERVER"
@@ -89,14 +90,14 @@ def test_connect_to_db():
     with pytest.raises(TypeError):
         assert connect_to_db()
     with pytest.raises(AttributeError,
-                       match="server ! user | password | database \
+                       match="server | user | password | database \
                            were not provided"):
-        assert connect_to_db("", "", "", "")
+        assert connect_to_db("", "", "", "", "")
     with pytest.raises(ConnectionError):
-        assert connect_to_db(DBS, DBU, DBP, DBD)
+        assert connect_to_db(DBDRIVER, DBS, DBU, DBP, DBD)
 
 
-def get_category_type_id_by_name():
+def test_get_category_type_id_by_name():
     assert get_category_type_id_by_name("", "")
     with pytest.raises(AttributeError,
                        match="Connection object or Category Name \
@@ -118,11 +119,14 @@ def test_get_args():
         assert get_args({})
         assert get_args("")
         assert get_args("False")
-    args = get_args(["-dbu", DBU, "-dbs", DBS, "-dbp", DBP, "-fg", FILE])
+    args = get_args(["-dbd", DBDRIVER, "-dbu", DBU,
+                     "-dbs", DBS, "-dbp", DBP, "-fg", FILE])
     assert hasattr(args, "file_groups") and \
+        hasattr(args, "dbdriver") and \
         hasattr(args, "dbserver") and \
         hasattr(args, "dbuser") and \
         hasattr(args, "dbpassword")
+    assert args.dbdriver == DBDRIVER
     assert args.dbuser == DBU and args.dbpassword == DBP
     assert args.dbserver == DBS and args.file_groups == FILE
 
@@ -194,11 +198,13 @@ def test_main():
         assert main(args)
 
     a = {"file_groups": FILE, "dbserver": DBS,
-         "dbuser": DBU, "dbpassword": DBP}
+         "dbuser": DBU, "dbpassword": DBP,
+         "dbdriver": DBDRIVER}
     args = namedtuple("Arguments", a.keys())(*a.values())
     assert hasattr(args, "file_groups") and \
         hasattr(args, "dbserver") and \
         hasattr(args, "dbuser") and \
-        hasattr(args, "dbpassword")
+        hasattr(args, "dbpassword") and \
+        hasattr(args, "dbdriver")
     with pytest.raises(ConnectionError):
         assert main(args)

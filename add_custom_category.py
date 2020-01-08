@@ -35,24 +35,26 @@ def read_file(filename):
         raise AttributeError("No Filename provided")
 
 
-def connect_to_db(server, user, password, database):
-    if is_str(server) and \
+def connect_to_db(driver, server, user, password, database):
+    if is_str(driver) and \
+            is_str(server) and \
             is_str(user) and \
             is_str(password) and \
             is_str(database):
         try:
             conn = pyodbc.connect(
-                'DRIVER={SQL Server};SERVER=' + server +
+                'DRIVER={' + driver + '};SERVER=' + server +
                 ';DATABASE=' + database +
                 ';UID=' + user +
-                ';PWD=' + password, timeout=3)
+                ';PWD=' + password,
+                timeout=3)
             print("Connection to", database, "success")
             return conn
         except pyodbc.OperationalError or pyodbc.InterfaceError as error:
             raise ConnectionError(error)
     else:
         raise AttributeError(
-            "server ! user | password | database were not provided")
+            "server | user | password | database were not provided")
 
 
 def get_category_type_id_by_name(conn, category_type_name):
@@ -305,6 +307,10 @@ def get_args(args):
         args_parser = argparse.ArgumentParser(
             description='Add Custom Category to CxDB')
         args_parser.add_argument(
+            '-dbd', '--dbdriver', help='Checkmarx MSSQL DB Driver',
+            required=False,
+            default="SQL Server")
+        args_parser.add_argument(
             '-dbu', '--dbuser', help='Checkmarx MSSQL DB Username',
             required=True)
         args_parser.add_argument('-dbp', '--dbpassword',
@@ -329,17 +335,21 @@ def main(args):
             category = file_content["category"]
             category_name = category["name"]
             groups = category["groups"]
-            if hasattr(args, "dbserver") and \
+            if hasattr(args, "dbdriver") and \
+                    hasattr(args, "dbserver") and \
                     hasattr(args, "dbuser") and \
                     hasattr(args, "dbpassword"):
                 db_server = args.dbserver
                 db_user = args.dbuser
                 db_pwd = args.dbpassword
-                if is_str(db_server) and \
+                db_driver = args.dbdriver
+                if is_str(db_driver) and \
+                        is_str(db_server) and \
                         is_str(db_user) and \
                         is_str(db_pwd):
 
-                    conn = connect_to_db(db_server, db_user, db_pwd, DB)
+                    conn = connect_to_db(
+                        db_driver, db_server, db_user, db_pwd, DB)
 
                     if is_conn(conn):
                         category_type_id = check_category_type_by_name(
