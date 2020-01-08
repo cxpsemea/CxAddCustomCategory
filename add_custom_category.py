@@ -89,7 +89,8 @@ def add_category_type_by_name(conn, category_type_name):
         return True
     else:
         raise AttributeError(
-            "Connection object or Category Name was not provided")
+            "Connection object or Category Name \
+                was not provided")
 
 
 def check_category_type_by_name(conn, category_type_name):
@@ -109,7 +110,8 @@ def check_category_type_by_name(conn, category_type_name):
         return category_type_id
     else:
         raise AttributeError(
-            "Connection object or Category Name was not provided")
+            "Connection object or Category Name \
+                was not provided")
 
 
 def delete_categories_by_category_type_id(conn, category_type_id):
@@ -121,7 +123,8 @@ def delete_categories_by_category_type_id(conn, category_type_id):
         conn.commit()
     else:
         raise AttributeError(
-            "Connection object or Category Type ID was not provided")
+            "Connection object or Category Type ID \
+                was not provided")
 
 
 def delete_categories_for_queries_by_category_type_id(conn, category_type_id):
@@ -134,7 +137,8 @@ def delete_categories_for_queries_by_category_type_id(conn, category_type_id):
         conn.commit()
     else:
         raise AttributeError(
-            "Connection object or Category Type ID was not provided")
+            "Connection object or Category Type ID \
+                was not provided")
 
 
 def clean_old_data(conn, category_type_id):
@@ -145,7 +149,8 @@ def clean_old_data(conn, category_type_id):
         print("Clearing old data...")
     else:
         raise AttributeError(
-            "Connection object or Category Type ID was not provided")
+            "Connection object or Category Type ID \
+                was not provided")
 
 
 def add_category(conn, category_name, category_type_id):
@@ -206,7 +211,8 @@ def update_category_for_query(conn, category_id, query_id):
             raise Exception(error)
     else:
         raise AttributeError(
-            "Connection object or Category ID or Query ID was not provided")
+            "Connection object or Category ID or Query ID \
+                was not provided")
 
 
 def get_categories_by_category_type_id_and_name(conn,
@@ -242,18 +248,20 @@ def insert_new_categories(conn, category_type_id, group):
 
 
 def get_queries(conn, query_ids_list):
-    sanitized_list = []
-    for queryId in query_ids_list:
-        if is_int(queryId):
-            sanitized_list.append(queryId)
-    query_ids = str(sanitized_list).strip('[]')
-    if is_conn(conn) and len(query_ids) > 0:
-        cursor = conn.cursor()
-        cursor.execute(
-            "SELECT * FROM dbo.Query WHERE QueryId IN (" + query_ids + ")")
-        return cursor.fetchall()
+    if is_conn(conn) and len(query_ids_list) > 0:
+        sanitized_list = []
+        for queryId in query_ids_list:
+            if is_int(queryId):
+                sanitized_list.append(queryId)
+        query_ids = str(sanitized_list).strip('[]')
+        if len(query_ids) > 0:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM dbo.Query WHERE QueryId IN (" + query_ids + ")")
+            return cursor.fetchall()
     else:
-        raise AttributeError("Connection object was not provided")
+        raise AttributeError("Connection object or Query List \
+            was not provided")
 
 
 def get_categories_ids_by_category_type(conn, category_type_id):
@@ -271,38 +279,51 @@ def get_categories_ids_by_category_type(conn, category_type_id):
 
     else:
         raise AttributeError(
-            "Connection object or Category Type ID was not provided")
+            "Connection object or Category Type ID \
+                was not provided")
 
 
 def insert_queries(conn, category_id, queries):
-    cursor = conn.cursor()
-    i = 0
-    for query in queries:
-        query_id = query[0]
-        is_deprecated = query[10]
-        percentage = round((i * 100) / len(queries), 0)
-        if is_deprecated == 0:
-            print("Inserting Query", query_id, "...", percentage, "%")
-            cursor.execute("INSERT INTO dbo.CategoryForQuery \
-                (QueryId,CategoryId) VALUES(?,?)",
-                           (query_id, category_id))
-            conn.commit()
-        else:
-            print("Query", query_id, "is deprecated", "...", percentage, "%")
-        i = i + 1
+    if is_conn(conn) and is_int(category_id) and len(queries) > 0:
+        cursor = conn.cursor()
+        i = 0
+        for query in queries:
+            query_id = query[0]
+            is_deprecated = query[10]
+            percentage = round((i * 100) / len(queries), 0)
+            if is_deprecated == 0:
+                print("Inserting Query", query_id, "...", percentage, "%")
+                cursor.execute("INSERT INTO dbo.CategoryForQuery \
+                    (QueryId,CategoryId) VALUES(?,?)",
+                               (query_id, category_id))
+                conn.commit()
+            else:
+                print("Query", query_id, "is deprecated", "...",
+                      percentage, "%")
+            i = i + 1
+    else:
+        raise AttributeError(
+            "Connection object or Category ID \
+                was not provided")
 
 
-def update_queries(conn, category_id, group, queries):
-    i = 0
-    for query in queries:
-        query_id = query[0]
-        is_deprecated = query[10]
-        percentage = round((i * 100) / len(queries), 0)
-        if is_deprecated == 0:
-            update_category_for_query(conn, category_id, query_id)
-        else:
-            print("Query", query_id, "is deprecated", "...", percentage, "%")
-        i = i + 1
+def update_queries(conn, category_id, queries):
+    if is_conn(conn) and is_int(category_id) and len(queries) > 0:
+        i = 0
+        for query in queries:
+            query_id = query[0]
+            is_deprecated = query[10]
+            percentage = round((i * 100) / len(queries), 0)
+            if is_deprecated == 0:
+                update_category_for_query(conn, category_id, query_id)
+            else:
+                print("Query", query_id, "is deprecated", "...",
+                      percentage, "%")
+            i = i + 1
+    else:
+        raise AttributeError(
+            "Connection object or Category ID \
+                was not provided")
 
 
 def get_args(args):
@@ -365,7 +386,7 @@ def main(args):
                             print(group["name"], ":", len(queries),
                                   "queries to change")
                             insert_queries(conn, category_id, queries)
-                            update_queries(conn, category_id, group, queries)
+                            update_queries(conn, category_id, queries)
                     else:
                         raise Exception("Cannot connect to Database")
                 else:

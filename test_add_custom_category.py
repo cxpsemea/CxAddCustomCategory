@@ -6,12 +6,27 @@ from add_custom_category import is_conn
 from add_custom_category import read_file
 from add_custom_category import connect_to_db
 from add_custom_category import get_category_type_id_by_name
-
+from add_custom_category import add_category_type_by_name
+from add_custom_category import check_category_type_by_name
+from add_custom_category import delete_categories_by_category_type_id
+from add_custom_category import \
+    delete_categories_for_queries_by_category_type_id
+from add_custom_category import clean_old_data
+from add_custom_category import add_category
+from add_custom_category import get_category_id
+from add_custom_category import add_category_for_query
+from add_custom_category import update_category_for_query
+from add_custom_category import get_categories_by_category_type_id_and_name
+from add_custom_category import insert_new_categories
+from add_custom_category import get_queries
+from add_custom_category import get_categories_ids_by_category_type
+from add_custom_category import insert_queries
+from add_custom_category import update_queries
 from add_custom_category import get_args
 from add_custom_category import main
 
 from collections import namedtuple
-import pyodbc
+# import pyodbc
 import pytest
 FILE = "groups.json"
 DBDRIVER = "SQL Server"
@@ -94,8 +109,10 @@ def test_connect_to_db():
                        match="server | user | password | database \
                            were not provided"):
         assert connect_to_db("", "", "", "", "")
-    #with pytest.raises((ConnectionError, pyodbc.InterfaceError, pyodbc.Error)):
-        #assert connect_to_db(DBDRIVER, DBS, DBU, DBP, DBD)
+    # with pytest.raises(
+    # (ConnectionError, pyodbc.InterfaceError, pyodbc.Error)
+    # ):
+    # assert connect_to_db(DBDRIVER, DBS, DBU, DBP, DBD)
 
 
 def test_get_category_type_id_by_name():
@@ -112,6 +129,246 @@ def test_get_category_type_id_by_name():
         assert get_category_type_id_by_name([], [])
         assert get_category_type_id_by_name({}, {})
         assert get_category_type_id_by_name("", "")
+
+
+def test_add_category_type_by_name():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Name \
+                was not provided"):
+        assert add_category_type_by_name(None, None)
+        assert add_category_type_by_name(True, True)
+        assert add_category_type_by_name(False, False)
+        assert add_category_type_by_name(0, 0)
+        assert add_category_type_by_name(1, 1)
+        assert add_category_type_by_name(-1, -1)
+        assert add_category_type_by_name(1.1, 1.1)
+        assert add_category_type_by_name([], [])
+        assert add_category_type_by_name({}, {})
+        assert add_category_type_by_name("", "")
+
+
+def test_check_category_type_by_name():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Name \
+                was not provided"):
+        assert check_category_type_by_name(None, None)
+        assert check_category_type_by_name(True, True)
+        assert check_category_type_by_name(False, False)
+        assert check_category_type_by_name(0, 0)
+        assert check_category_type_by_name(1, 1)
+        assert check_category_type_by_name(-1, -1)
+        assert check_category_type_by_name(1.1, 1.1)
+        assert check_category_type_by_name([], [])
+        assert check_category_type_by_name({}, {})
+        assert check_category_type_by_name("", "")
+
+
+def test_delete_categories_by_category_type_id():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Type ID \
+                was not provided"):
+        assert delete_categories_by_category_type_id(None, None)
+        assert delete_categories_by_category_type_id(True, True)
+        assert delete_categories_by_category_type_id(False, False)
+        assert delete_categories_by_category_type_id(0, 0)
+        assert delete_categories_by_category_type_id(1, 1)
+        assert delete_categories_by_category_type_id(-1, -1)
+        assert delete_categories_by_category_type_id(1.1, 1.1)
+        assert delete_categories_by_category_type_id([], [])
+        assert delete_categories_by_category_type_id({}, {})
+        assert delete_categories_by_category_type_id("", "")
+
+
+def test_delete_categories_for_queries_by_category_type_id():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Type ID \
+                was not provided"):
+        assert delete_categories_for_queries_by_category_type_id(None, None)
+        assert delete_categories_for_queries_by_category_type_id(True, True)
+        assert delete_categories_for_queries_by_category_type_id(False, False)
+        assert delete_categories_for_queries_by_category_type_id(0, 0)
+        assert delete_categories_for_queries_by_category_type_id(1, 1)
+        assert delete_categories_for_queries_by_category_type_id(-1, -1)
+        assert delete_categories_for_queries_by_category_type_id(1.1, 1.1)
+        assert delete_categories_for_queries_by_category_type_id([], [])
+        assert delete_categories_for_queries_by_category_type_id({}, {})
+        assert delete_categories_for_queries_by_category_type_id("", "")
+
+
+def test_clean_old_data():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Type ID \
+                was not provided"):
+        assert clean_old_data(None, None)
+        assert clean_old_data(True, True)
+        assert clean_old_data(False, False)
+        assert clean_old_data(0, 0)
+        assert clean_old_data(1, 1)
+        assert clean_old_data(-1, -1)
+        assert clean_old_data(1.1, 1.1)
+        assert clean_old_data([], [])
+        assert clean_old_data({}, {})
+        assert clean_old_data("", "")
+
+
+def test_add_category():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Name or Category Type ID \
+                was not provided"):
+        assert add_category(None, None, None)
+        assert add_category(True, True, True)
+        assert add_category(False, False, False)
+        assert add_category(0, 0, 0)
+        assert add_category(1, 1, 1)
+        assert add_category(-1, -1, -1)
+        assert add_category(1.1, 1.1, 1.1)
+        assert add_category([], [], [])
+        assert add_category({}, {}, {})
+        assert add_category("", "", "")
+
+
+def test_get_category_id():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Name or Category Type ID \
+                was not provided"):
+        assert get_category_id(None, None, None)
+        assert get_category_id(True, True, True)
+        assert get_category_id(False, False, False)
+        assert get_category_id(0, 0, 0)
+        assert get_category_id(1, 1, 1)
+        assert get_category_id(-1, -1, -1)
+        assert get_category_id(1.1, 1.1, 1.1)
+        assert get_category_id([], [], [])
+        assert get_category_id({}, {}, {})
+        assert get_category_id("", "", "")
+
+
+def test_add_category_for_query():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category ID or Query ID \
+                was not provided"):
+        assert add_category_for_query(None, None, None)
+        assert add_category_for_query(True, True, True)
+        assert add_category_for_query(False, False, False)
+        assert add_category_for_query(0, 0, 0)
+        assert add_category_for_query(1, 1, 1)
+        assert add_category_for_query(-1, -1, -1)
+        assert add_category_for_query(1.1, 1.1, 1.1)
+        assert add_category_for_query([], [], [])
+        assert add_category_for_query({}, {}, {})
+        assert add_category_for_query("", "", "")
+
+
+def test_update_category_for_query():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category ID or Query ID \
+                was not provided"):
+        assert update_category_for_query(None, None, None)
+        assert update_category_for_query(True, True, True)
+        assert update_category_for_query(False, False, False)
+        assert update_category_for_query(0, 0, 0)
+        assert update_category_for_query(1, 1, 1)
+        assert update_category_for_query(-1, -1, -1)
+        assert update_category_for_query(1.1, 1.1, 1.1)
+        assert update_category_for_query([], [], [])
+        assert update_category_for_query({}, {}, {})
+        assert update_category_for_query("", "", "")
+
+
+def test_get_categories_by_category_type_id_and_name():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category ID or Query ID \
+                was not provided"):
+        assert get_categories_by_category_type_id_and_name(None, None, None)
+        assert get_categories_by_category_type_id_and_name(True, True, True)
+        assert get_categories_by_category_type_id_and_name(False, False, False)
+        assert get_categories_by_category_type_id_and_name(0, 0, 0)
+        assert get_categories_by_category_type_id_and_name(1, 1, 1)
+        assert get_categories_by_category_type_id_and_name(-1, -1, -1)
+        assert get_categories_by_category_type_id_and_name(1.1, 1.1, 1.1)
+        assert get_categories_by_category_type_id_and_name([], [], [])
+        assert get_categories_by_category_type_id_and_name({}, {}, {})
+        assert get_categories_by_category_type_id_and_name("", "", "")
+
+
+def test_insert_new_categories():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Type ID \
+                was not provided"):
+        assert insert_new_categories(None, None, None)
+        assert insert_new_categories(True, True, True)
+        assert insert_new_categories(False, False, False)
+        assert insert_new_categories(0, 0, 0)
+        assert insert_new_categories(1, 1, 1)
+        assert insert_new_categories(-1, -1, -1)
+        assert insert_new_categories(1.1, 1.1, 1.1)
+        assert insert_new_categories([], [], [])
+        assert insert_new_categories({}, {}, {})
+        assert insert_new_categories("", "", "")
+
+
+def test_get_queries():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Query List \
+            was not provided"):
+        assert get_queries(None, None)
+        assert get_queries(True, True)
+        assert get_queries(False, False)
+        assert get_queries(0, 0)
+        assert get_queries(1, 1)
+        assert get_queries(-1, -1)
+        assert get_queries(1.1, 1.1)
+        assert get_queries([], [])
+        assert get_queries({}, {})
+        assert get_queries("", "")
+
+
+def test_insert_queries():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category ID \
+                was not provided"):
+        assert insert_queries(None, None, None)
+        assert insert_queries(True, True, True)
+        assert insert_queries(False, False, False)
+        assert insert_queries(0, 0, 0)
+        assert insert_queries(1, 1, 1)
+        assert insert_queries(-1, -1, -1)
+        assert insert_queries(1.1, 1.1, 1.1)
+        assert insert_queries([], [], [])
+        assert insert_queries({}, {}, {})
+        assert insert_queries("", "", "")
+
+
+def test_get_categories_ids_by_category_type():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category Type ID \
+                was not provided"):
+        assert get_categories_ids_by_category_type(None, None)
+        assert get_categories_ids_by_category_type(True, True)
+        assert get_categories_ids_by_category_type(False, False)
+        assert get_categories_ids_by_category_type(0, 0)
+        assert get_categories_ids_by_category_type(1, 1)
+        assert get_categories_ids_by_category_type(-1, -1)
+        assert get_categories_ids_by_category_type(1.1, 1.1)
+        assert get_categories_ids_by_category_type([], [])
+        assert get_categories_ids_by_category_type({}, {})
+        assert get_categories_ids_by_category_type("", "")
+
+
+def test_update_queries():
+    with pytest.raises(AttributeError,
+                       match="Connection object or Category ID \
+                was not provided"):
+        assert update_queries(None, None, None)
+        assert update_queries(True, True, True)
+        assert update_queries(False, False, False)
+        assert update_queries(0, 0, 0)
+        assert update_queries(1, 1, 1)
+        assert update_queries(-1, -1, -1)
+        assert update_queries(1.1, 1.1, 1.1)
+        assert update_queries([], [], [])
+        assert update_queries({}, {}, {})
+        assert update_queries("", "", "")
 
 
 def test_get_args():
@@ -215,5 +472,5 @@ def test_main():
         hasattr(args, "dbuser") and \
         hasattr(args, "dbpassword") and \
         hasattr(args, "dbdriver")
-    #with pytest.raises(ConnectionError):
-        #assert main(args)
+    # with pytest.raises(ConnectionError):
+    # assert main(args)
