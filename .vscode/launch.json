@@ -8,7 +8,13 @@
             "name": "Run Python Script",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/add_custom_category.py"
+            "program": "${workspaceFolder}/add_custom_category.py",
+            "args": [
+                "-dbu", "*****",
+                "-dbp", "*****",
+                "-dbs", "*****\\CHECKMARX",
+                "-fg", "${workspaceFolder}/groups.json"
+            ]
         },
         {
             "name": "Run tests",
