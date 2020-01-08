@@ -1,6 +1,6 @@
 # CxAddCustomCategory ![Checkmarx](images/checkmarx.png)
 
-[![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)
+[![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.8/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Python script to add custom Category to Checkmarx SAST
@@ -67,6 +67,13 @@ For using this script, there is a set of inputs that are required to be passed a
 ```
 
 # Dependencies
+
+| Subject | Dependency | Version | 
+| ------------- | ------------- | ------------- |
+| Language | Python | 3.8 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.8/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions),</br> 3.7 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.7/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions),</br> 3.6 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.6/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)| 
+| requirements.txt | pyodbc | 4.0.28 | 
+| Database | MSSQL Driver | SQL Server, but is configurable as argument |
+| Package Installer | pip | Relative to Python version |
 
 This Python script contains some dependencies that you can find in **"requirements.txt"** file:
 
