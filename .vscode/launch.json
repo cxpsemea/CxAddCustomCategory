@@ -16,7 +16,7 @@
             "request": "launch",
             "module": "pytest",
             "args": ["-vx"],
-            "program": "${workspaceFolder}/test_add_custom_category.py"
+            "program": "${workspaceFolder}/unit_test_add_custom_category.py"
         },
     ]
 }
