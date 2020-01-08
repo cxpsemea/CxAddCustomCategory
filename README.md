@@ -83,7 +83,7 @@ pip install -r requirements.txt
 Command Example:
 
 ```sh
-python add_custom_category.py -dbu miguel -dbp ****** -dbs MIGUELFR-LAPTOP\\CHECKMARX -fg groups.json
+python add_custom_category.py -dbu miguel -dbp ****** -dbs MIGUELFR-LAPTOP\CHECKMARX -fg groups.json
 ```
 
 Command Output Generated:
