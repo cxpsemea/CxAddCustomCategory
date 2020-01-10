@@ -38,10 +38,10 @@ jobs:
       uses: miguelfreitas93/checkmarx-github-action@v1.0.0
       with:
         cxAction: Scan
-        cxServer: https://cxprivatecloud.checkmarx.net/
-        cxUsername: Miguel.Freitas@checkmarx.com
+        cxServer: ${{ secrets.CX_SERVER }}
+        cxUsername: ${{ secrets.CX_EMAIL }}
         cxPassword: ${{ secrets.CX_PASSWORD }}
-        cxTeam: \CxServer\SP\EMEA\__psteam
+        cxTeam: ${{ secrets.CX_TEAM }}
         cxPreset: All
         cxExcludeFolders: "tests,.vscode,.github,images,__pycache__,.pytest_cache,cxcli"
         cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
