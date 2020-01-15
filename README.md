@@ -5,7 +5,7 @@
 
 Python script to add custom Category to Checkmarx SAST
 
-# Inputs
+# Inputs 
 
 For using this script, there is a set of inputs that are required to be passed as argument to it, such as:
 
