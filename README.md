@@ -122,31 +122,31 @@ Command Output Generated:
 ```log
 Connection to CxDB success
 Category Type  My Custom Category  does not exist.
-Creating category type : My Custom Category - ID: 9
+Creating category type : My Custom Category - ID: 8
 Clearing old data...
 
-New Category Inserted :  (307, 'Category Critical', 9)
+New Category Inserted :  (72, 'Category Critical', 8)
 Category Critical : 4 queries to change
 Inserting Query 1678 ... 0.0 %
 Inserting Query 2277 ... 25.0 %
 Inserting Query 3717 ... 50.0 %
 Inserting Query 3885 ... 75.0 %
 
-New Category Inserted :  (308, 'Category High', 9)
+New Category Inserted :  (73, 'Category High', 8)
 Category High : 4 queries to change
 Inserting Query 630 ... 0.0 %
 Inserting Query 633 ... 25.0 %
 Inserting Query 1670 ... 50.0 %
 Inserting Query 1672 ... 75.0 %
 
-New Category Inserted :  (309, 'Category Medium', 9)
+New Category Inserted :  (74, 'Category Medium', 8)
 Category Medium : 4 queries to change
 Inserting Query 628 ... 0.0 %
 Inserting Query 639 ... 25.0 %
 Inserting Query 4593 ... 50.0 %
 Inserting Query 5370 ... 75.0 %
 
-New Category Inserted :  (310, 'Category Low', 9)
+New Category Inserted :  (75, 'Category Low', 8)
 Category Low : 4 queries to change
 Inserting Query 627 ... 0.0 %
 Inserting Query 1671 ... 25.0 %
