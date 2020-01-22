@@ -32,7 +32,8 @@ def read_file(filename):
                         with open(filename, 'rb') as f:
                             return json.load(f)
                     else:
-                        raise PermissionError("You don't have permissions to access this file")
+                        raise PermissionError("You don't have \
+                            permissions to access this file")
                 else:
                     raise FileNotFoundError("File Not Found")
             except FileNotFoundError:
@@ -93,7 +94,8 @@ def add_category_type_by_name(conn, category_type_name):
         cursor.execute("SET IDENTITY_INSERT dbo.CategoriesTypes ON")
         conn.commit()
         cursor.execute(
-            "INSERT INTO dbo.CategoriesTypes (Id, Typename) VALUES((SELECT max(Id)+1 FROM dbo.CategoriesTypes), ?)",
+            "INSERT INTO dbo.CategoriesTypes (Id, Typename) \
+                VALUES((SELECT max(Id)+1 FROM dbo.CategoriesTypes), ?)",
             category_type_name)
         conn.commit()
         cursor.execute("SET IDENTITY_INSERT dbo.CategoriesTypes OFF")
@@ -171,7 +173,8 @@ def add_category(conn, category_name, category_type_id):
         cursor.execute("SET IDENTITY_INSERT dbo.Categories ON")
         conn.commit()
         cursor.execute("INSERT INTO dbo.Categories (Id, CategoryName,CategoryType) \
-            VALUES((SELECT max(Id)+1 FROM dbo.Categories),?,?)", (category_name, category_type_id))
+            VALUES((SELECT max(Id)+1 FROM dbo.Categories),?,?)",
+                       (category_name, category_type_id))
         conn.commit()
         cursor.execute("SET IDENTITY_INSERT dbo.Categories OFF")
         conn.commit()
@@ -202,7 +205,8 @@ def add_category_for_query(conn, category_id, query_id):
         conn.commit()
         cursor.execute(
             "INSERT INTO dbo.CategoryForQuery (Id,QueryId,CategoryId) \
-                VALUES((SELECT max(Id)+1 FROM dbo.CategoryForQuery),?,?)", (query_id, category_id))
+                VALUES((SELECT max(Id)+1 FROM dbo.CategoryForQuery),?,?)",
+            (query_id, category_id))
         conn.commit()
         cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
         conn.commit()
@@ -225,7 +229,8 @@ def update_category_for_query(conn, category_id, query_id):
                 cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery ON")
                 conn.commit()
                 cursor.execute("INSERT INTO dbo.CategoryForQuery \
-                    (Id,QueryId,CategoryId) VALUES((SELECT max(Id)+1 FROM dbo.CategoryForQuery),?,?)",
+                    (Id,QueryId,CategoryId) VALUES\
+                    ((SELECT max(Id)+1 FROM dbo.CategoryForQuery),?,?)",
                                (query_id, category_id))
                 conn.commit()
                 cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
@@ -318,8 +323,9 @@ def insert_queries(conn, category_id, queries):
             percentage = round((i * 100) / len(queries), 0)
             print("Inserting Query", query_id, "...", percentage, "%")
             cursor.execute("INSERT INTO dbo.CategoryForQuery \
-                (Id, QueryId,CategoryId) VALUES((SELECT max(Id)+1 FROM dbo.CategoryForQuery), ?,?)",
-                            (query_id, category_id))
+                (Id, QueryId,CategoryId) VALUES\
+                ((SELECT max(Id)+1 FROM dbo.CategoryForQuery), ?,?)",
+                           (query_id, category_id))
             conn.commit()
             i = i + 1
         cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
@@ -335,7 +341,6 @@ def update_queries(conn, category_id, queries):
         i = 0
         for query in queries:
             query_id = query[0]
-            percentage = round((i * 100) / len(queries), 0)
             update_category_for_query(conn, category_id, query_id)
             i = i + 1
     else:

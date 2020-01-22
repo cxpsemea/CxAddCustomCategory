@@ -29,6 +29,7 @@
             "module": "flake8",
             "args": [
                 "--count",
+                "--exclude=tests/*",
                 "--statistics"
             ]
         }
