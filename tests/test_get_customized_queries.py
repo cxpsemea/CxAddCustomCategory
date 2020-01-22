@@ -4,6 +4,7 @@ from get_customized_queries import is_str
 from get_customized_queries import is_int
 from get_customized_queries import is_conn
 from get_customized_queries import connect_to_db
+from get_customized_queries import write_queries_to_file
 from get_customized_queries import get_customized_queries
 from get_customized_queries import get_args
 from get_customized_queries import main
@@ -70,6 +71,22 @@ def test_is_conn():
     assert is_conn("") is False
     assert is_conn("123") is False
     # Missing pyodbc.Connection test
+
+
+def test_write_queries_to_file():
+    assert not write_queries_to_file(None, None)
+    assert not write_queries_to_file(True, True)
+    assert not write_queries_to_file(False, False)
+    assert not write_queries_to_file(1, 1)
+    assert not write_queries_to_file(0, 0)
+    assert not write_queries_to_file(-1, -1)
+    assert not write_queries_to_file(1.1, 1.1)
+    assert not write_queries_to_file([], [])
+    assert not write_queries_to_file({}, {})
+    assert not write_queries_to_file("", "")
+    assert not write_queries_to_file("False", "False")
+    with pytest.raises(AttributeError,match="File should have \".json\" extension"):
+        assert write_queries_to_file([1], "test")
 
 
 def test_get_customized_queries():

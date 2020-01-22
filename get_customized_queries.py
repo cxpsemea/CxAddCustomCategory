@@ -24,7 +24,7 @@ def is_conn(conn):
 
 
 def write_queries_to_file(queries, f):
-    if queries and len(queries) > 0 and is_str(f):
+    if f and queries and isinstance(queries, list) and len(queries) > 0 and is_str(f):
         if f.endswith(".json"):
             data = {}
             data['queries'] = []
@@ -58,6 +58,7 @@ def write_queries_to_file(queries, f):
             if os.access("/", os.W_OK):
                 with open(f, 'w') as outfile:
                     json.dump(data, outfile, indent=4, sort_keys=True)
+                    return True
             else:
                 raise PermissionError("You don't have \
                     permissions to access this file")
@@ -65,6 +66,7 @@ def write_queries_to_file(queries, f):
             raise AttributeError("File should have \".json\" extension")
     else:
         print("No Customized Queries Found !")
+        return False
 
 
 def connect_to_db(driver, server, user, password, database):
@@ -124,7 +126,7 @@ def get_args(args):
                                  help='Checkmarx MSSQL DB Server URL',
                                  required=True)
         args_parser.add_argument('-f', '--file',
-                                 help='File Name to write customized queries',
+                                 help='File Name to write customized queries (.json extension)',
                                  required=False,
                                  default='customized_queries.json')
         return args_parser.parse_args(args)
@@ -154,7 +156,13 @@ def main(args):
                 queries = get_customized_queries(conn)
                 if queries:
                     print("Found", len(queries), "customized queries")
-                    write_queries_to_file(queries, filename)
+                    written = write_queries_to_file(queries, filename)
+                    if written:
+                        print("File", filename,
+                              "with customized queries was written.")
+                    else:
+                        print("Error: Cannot write file",
+                              filename, "with customized queries")
                 else:
                     print("No Customized Queries Found !")
             else:

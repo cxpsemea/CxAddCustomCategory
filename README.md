@@ -154,6 +154,93 @@ Inserting Query 3771 ... 50.0 %
 Inserting Query 3896 ... 75.0 %
 ```
 
+# Additional Scripts for retrieving customized queries
+
+In order to identify correctly the IDs for a proper mapping in **groups.json**, it is required to know the IDs of the customized queries.
+For this purpose it was created the script **get_customized_queries.py** in order to retrieve the customized queries to a given file, which is by default **customized_queries.json**.
+
+Command Help Example:
+
+```sh
+> python get_customized_queries.py -h
+usage: get_customized_queries.py [-h] [-dbd DBDRIVER] -dbu DBUSER -dbp DBPASSWORD -dbs DBSERVER [-f FILE]
+
+Get Customized Queries from CxDB
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -dbd DBDRIVER, --dbdriver DBDRIVER
+                        Checkmarx MSSQL DB Driver
+  -dbu DBUSER, --dbuser DBUSER
+                        Checkmarx MSSQL DB Username
+  -dbp DBPASSWORD, --dbpassword DBPASSWORD
+                        Checkmarx MSSQL DB Password
+  -dbs DBSERVER, --dbserver DBSERVER
+                        Checkmarx MSSQL DB Server URL
+  -f FILE, --file FILE  File Name to write customized queries (.json extension)
+```
+
+Command Execution Example:
+
+```sh
+python get_customized_queries.py -dbu miguel -dbp ****** -dbs MIGUELFR-LAPTOP\CHECKMARX
+```
+
+Command Output Generated:
+
+```log
+Connection to CxDB success
+Found 2 customized queries
+File customized_queries.json with customized queries was written.
+```
+
+customized_queries.json Example:
+
+```json
+{
+    "queries": [
+        {
+            "comments": " ",
+            "current_username": " ",
+            "cwe": 94,
+            "cx_description_id": 1083,
+            "draft_source": " ",
+            "engine_metadata": null,
+            "is_check_out": false,
+            "is_compiled": true,
+            "is_deprecated": false,
+            "is_encrypted": false,
+            "is_executable": true,
+            "name": "Code_Injection",
+            "package_id": 100001,
+            "query_id": 100001,
+            "severity": 3,
+            "source": "result = base.Code_Injection();\r\n\r\nresult = result;",
+            "update_time": "2020-01-22 16:52:04.307000"
+        },
+        {
+            "comments": " ",
+            "current_username": " ",
+            "cwe": 99,
+            "cx_description_id": 1231,
+            "draft_source": " ",
+            "engine_metadata": null,
+            "is_check_out": false,
+            "is_compiled": true,
+            "is_deprecated": false,
+            "is_encrypted": false,
+            "is_executable": true,
+            "name": "Resource_Injection",
+            "package_id": 100001,
+            "query_id": 100002,
+            "severity": 3,
+            "source": "result = base.Resource_Injection();\r\n\r\n//test",
+            "update_time": "2020-01-22 16:57:07.607000"
+        }
+    ]
+}
+```
+
 # License
 
 MIT License
