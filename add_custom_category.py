@@ -90,9 +90,13 @@ def get_category_type_id_by_name(conn, category_type_name):
 def add_category_type_by_name(conn, category_type_name):
     if is_conn(conn) and is_str(category_type_name):
         cursor = conn.cursor()
+        cursor.execute("SET IDENTITY_INSERT dbo.CategoriesTypes ON")
+        conn.commit()
         cursor.execute(
-            "INSERT INTO dbo.CategoriesTypes (Typename) VALUES(?)",
+            "INSERT INTO dbo.CategoriesTypes (Id, Typename) VALUES((SELECT max(Id)+1 FROM dbo.CategoriesTypes), ?)",
             category_type_name)
+        conn.commit()
+        cursor.execute("SET IDENTITY_INSERT dbo.CategoriesTypes OFF")
         conn.commit()
         return True
     else:
@@ -164,8 +168,12 @@ def clean_old_data(conn, category_type_id):
 def add_category(conn, category_name, category_type_id):
     if is_conn(conn) and is_str(category_name) and is_int(category_type_id):
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO dbo.Categories (CategoryName,CategoryType) \
-            VALUES(?,?)", (category_name, category_type_id))
+        cursor.execute("SET IDENTITY_INSERT dbo.Categories ON")
+        conn.commit()
+        cursor.execute("INSERT INTO dbo.Categories (Id, CategoryName,CategoryType) \
+            VALUES((SELECT max(Id)+1 FROM dbo.Categories),?,?)", (category_name, category_type_id))
+        conn.commit()
+        cursor.execute("SET IDENTITY_INSERT dbo.Categories OFF")
         conn.commit()
         return True
     else:
@@ -190,9 +198,13 @@ def get_category_id(conn, category_name, category_type_id):
 def add_category_for_query(conn, category_id, query_id):
     if is_conn(conn) and is_int(category_id) and is_int(query_id):
         cursor = conn.cursor()
+        cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery ON")
+        conn.commit()
         cursor.execute(
-            "INSERT INTO dbo.CategoryForQuery (QueryId,CategoryId) \
-                VALUES(?,?)", (query_id, category_id))
+            "INSERT INTO dbo.CategoryForQuery (Id,QueryId,CategoryId) \
+                VALUES((SELECT max(Id)+1 FROM dbo.CategoryForQuery),?,?)", (query_id, category_id))
+        conn.commit()
+        cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
         conn.commit()
         return True
     else:
@@ -210,9 +222,13 @@ def update_category_for_query(conn, category_id, query_id):
                            (category_id, query_id))
             rows = cursor.fetchall()
             if len(rows[0]) == 0:
+                cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery ON")
+                conn.commit()
                 cursor.execute("INSERT INTO dbo.CategoryForQuery \
-                    (QueryId,CategoryId) VALUES(?,?)",
+                    (Id,QueryId,CategoryId) VALUES((SELECT max(Id)+1 FROM dbo.CategoryForQuery),?,?)",
                                (query_id, category_id))
+                conn.commit()
+                cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
                 conn.commit()
             return True
         except Exception as error:
@@ -294,16 +310,20 @@ def get_categories_ids_by_category_type(conn, category_type_id):
 def insert_queries(conn, category_id, queries):
     if is_conn(conn) and is_int(category_id) and len(queries) > 0:
         cursor = conn.cursor()
+        cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery ON")
+        conn.commit()
         i = 0
         for query in queries:
             query_id = query[0]
             percentage = round((i * 100) / len(queries), 0)
             print("Inserting Query", query_id, "...", percentage, "%")
             cursor.execute("INSERT INTO dbo.CategoryForQuery \
-                (QueryId,CategoryId) VALUES(?,?)",
+                (Id, QueryId,CategoryId) VALUES((SELECT max(Id)+1 FROM dbo.CategoryForQuery), ?,?)",
                             (query_id, category_id))
             conn.commit()
             i = i + 1
+        cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
+        conn.commit()
     else:
         raise AttributeError(
             "Connection object or Category ID \
