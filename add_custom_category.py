@@ -301,7 +301,8 @@ def insert_queries(conn, category_id, severity_id, queries):
                 ((SELECT max(Id)+1 FROM dbo.CategoryForQuery), ?,?)",
                            (query_id, category_id))
             conn.commit()
-            update_customized_queries(conn, severity_id, query_id)
+            update_customized_queries(conn, category_id, severity_id,
+                                      query_id)
             i = i + 1
         cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
         conn.commit()
@@ -374,10 +375,11 @@ def update_category_severity_mapping(conn, severity_id,
             "Connection object was not provided")
 
 
-def update_customized_queries(conn, severity_id, query_id):
-    if is_conn(conn) and is_int(severity_id) and is_int(query_id):
+def update_customized_queries(conn, category_id, severity_id, query_id):
+    if is_conn(conn) and is_int(category_id) and is_int(severity_id) \
+            and is_int(query_id):
         cursor = conn.cursor()
-        
+
         cursor.execute("SELECT QueryId FROM dbo.Query \
                 WHERE PackageId IN (\
             SELECT DISTINCT PackageId FROM dbo.QueryGroup \
@@ -393,6 +395,13 @@ def update_customized_queries(conn, severity_id, query_id):
                        (query_id, query_id))
         customized_queries_list = cursor.fetchall()
         if len(customized_queries_list) > 0:
+            for customized_query in customized_queries_list:
+                cursor.execute("INSERT INTO dbo.CategoryForQuery \
+                    (Id, QueryId,CategoryId) VALUES\
+                    ((SELECT max(Id)+1 FROM dbo.CategoryForQuery), ?,?)",
+                               (customized_query[0], category_id))
+                conn.commit()
+
             cursor.execute("UPDATE dbo.QueryVersion SET Severity = ? \
                 WHERE QueryId IN (\
                 SELECT QueryId FROM dbo.QueryVersion \
@@ -408,7 +417,7 @@ def update_customized_queries(conn, severity_id, query_id):
                 SELECT DISTINCT Name FROM dbo.QueryVersion \
                     WHERE QueryId = ?)\
                 )",
-                        (severity_id, query_id, query_id))
+                           (severity_id, query_id, query_id))
             conn.commit()
             cursor.execute("UPDATE dbo.Query SET Severity = ? \
                     WHERE QueryId IN (\
@@ -425,10 +434,10 @@ def update_customized_queries(conn, severity_id, query_id):
                 SELECT DISTINCT Name FROM dbo.Query \
                     WHERE QueryId = ?)\
                 )",
-                        (severity_id, query_id, query_id))
+                           (severity_id, query_id, query_id))
             conn.commit()
             print("Updating Customized Queries Severity", severity_id,
-                "- Query ID -", query_id)
+                  "- Query ID -", query_id)
         else:
             print("No existing customized queries for", query_id)
         return True
