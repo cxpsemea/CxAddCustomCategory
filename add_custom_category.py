@@ -352,6 +352,19 @@ def update_category_severity_mapping(conn, severity_id,
             AND CategoriesTypes.TypeName = ?",
                        (severity_id, group_name, category_name))
         conn.commit()
+        cursor.execute("UPDATE QueryVersions \
+            SET QueryVersions.Severity = ? \
+            FROM [CxDB].[dbo].[Categories] Categories \
+            JOIN [CxDB].[dbo].[CategoryForQuery] CategoriesForQuery \
+                ON Categories.Id=CategoriesForQuery.CategoryId \
+            JOIN [CxDB].[dbo].[QueryVersion] QueryVersions \
+                ON CategoriesForQuery.QueryId=QueryVersions.QueryId \
+            JOIN [CxDB].[dbo].[CategoriesTypes] CategoriesTypes \
+                ON Categories.CategoryType = CategoriesTypes.Id \
+            WHERE Categories.CategoryName = ? \
+            AND CategoriesTypes.TypeName = ?",
+                       (severity_id, group_name, category_name))
+        conn.commit()
         print("Updating Severity Mapping for Severity", severity_id,
               "-", group_name, "-", category_name)
     else:
@@ -391,15 +404,20 @@ def main(args):
                         for group in groups:
                             category_id = insert_new_categories(
                                 conn, category_type_id, group)
-                            queries = get_queries(conn, group["queryIds"])
-                            print(group["name"], ":", len(queries),
-                                  "queries to change")
-                            insert_queries(conn, category_id, queries)
-                            update_category_severity_mapping(
-                                conn,
-                                group["severity_id"],
-                                category_name,
-                                group["name"])
+                            if "query_ids" in group and "name" in group and \
+                                    "severity_id" in group:
+                                queries = get_queries(conn, group["query_ids"])
+                                print(group["name"], ":", len(queries),
+                                      "queries to change")
+                                insert_queries(conn, category_id, queries)
+                                update_category_severity_mapping(
+                                    conn,
+                                    group["severity_id"],
+                                    category_name,
+                                    group["name"])
+                            else:
+                                print("Group has 1 missing attribute: name\
+                                    query_ids or severity_id")
 
                     else:
                         raise Exception("Cannot connect to Database")
