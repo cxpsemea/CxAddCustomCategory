@@ -285,8 +285,9 @@ def get_categories_ids_by_category_type(conn, category_type_id):
                 was not provided")
 
 
-def insert_queries(conn, category_id, queries):
-    if is_conn(conn) and is_int(category_id) and len(queries) > 0:
+def insert_queries(conn, category_id, severity_id, queries):
+    if is_conn(conn) and is_int(category_id) and \
+            is_int(severity_id) and len(queries) > 0:
         cursor = conn.cursor()
         cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery ON")
         conn.commit()
@@ -300,6 +301,7 @@ def insert_queries(conn, category_id, queries):
                 ((SELECT max(Id)+1 FROM dbo.CategoryForQuery), ?,?)",
                            (query_id, category_id))
             conn.commit()
+            update_customized_queries(conn, severity_id, query_id)
             i = i + 1
         cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
         conn.commit()
@@ -341,12 +343,12 @@ def update_category_severity_mapping(conn, severity_id,
         cursor = conn.cursor()
         cursor.execute("UPDATE Queries \
             SET Queries.Severity = ? \
-            FROM [CxDB].[dbo].[Categories] Categories \
-            JOIN [CxDB].[dbo].[CategoryForQuery] CategoriesForQuery \
+            FROM dbo.Categories Categories \
+            JOIN dbo.CategoryForQuery CategoriesForQuery \
                 ON Categories.Id=CategoriesForQuery.CategoryId \
-            JOIN [CxDB].[dbo].[Query] Queries \
+            JOIN dbo.Query Queries \
                 ON CategoriesForQuery.QueryId=Queries.QueryId \
-            JOIN [CxDB].[dbo].[CategoriesTypes] CategoriesTypes \
+            JOIN dbo.CategoriesTypes CategoriesTypes \
                 ON Categories.CategoryType = CategoriesTypes.Id \
             WHERE Categories.CategoryName = ? \
             AND CategoriesTypes.TypeName = ?",
@@ -354,12 +356,12 @@ def update_category_severity_mapping(conn, severity_id,
         conn.commit()
         cursor.execute("UPDATE QueryVersions \
             SET QueryVersions.Severity = ? \
-            FROM [CxDB].[dbo].[Categories] Categories \
-            JOIN [CxDB].[dbo].[CategoryForQuery] CategoriesForQuery \
+            FROM dbo.Categories Categories \
+            JOIN dbo.CategoryForQuery CategoriesForQuery \
                 ON Categories.Id=CategoriesForQuery.CategoryId \
-            JOIN [CxDB].[dbo].[QueryVersion] QueryVersions \
+            JOIN dbo.QueryVersion QueryVersions \
                 ON CategoriesForQuery.QueryId=QueryVersions.QueryId \
-            JOIN [CxDB].[dbo].[CategoriesTypes] CategoriesTypes \
+            JOIN dbo.CategoriesTypes CategoriesTypes \
                 ON Categories.CategoryType = CategoriesTypes.Id \
             WHERE Categories.CategoryName = ? \
             AND CategoriesTypes.TypeName = ?",
@@ -369,8 +371,70 @@ def update_category_severity_mapping(conn, severity_id,
               "-", group_name, "-", category_name)
     else:
         raise AttributeError(
-            "Connection object or Category ID \
-                was not provided")
+            "Connection object was not provided")
+
+
+def update_customized_queries(conn, severity_id, query_id):
+    if is_conn(conn) and is_int(severity_id) and is_int(query_id):
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT QueryId FROM dbo.Query \
+                WHERE PackageId IN (\
+            SELECT DISTINCT PackageId FROM dbo.QueryGroup \
+                WHERE Name = (\
+            SELECT Name FROM dbo.QueryGroup \
+                WHERE PackageId = (\
+            SELECT DISTINCT PackageId FROM dbo.Query \
+                WHERE QueryId = ?)\
+            ) and PackageId > 100000\
+            ) and Name = (\
+            SELECT DISTINCT Name FROM dbo.Query \
+                WHERE QueryId = ?)",
+                       (query_id, query_id))
+        customized_queries_list = cursor.fetchall()
+        if len(customized_queries_list) > 0:
+            cursor.execute("UPDATE dbo.QueryVersion SET Severity = ? \
+                WHERE QueryId IN (\
+                SELECT QueryId FROM dbo.QueryVersion \
+                    WHERE PackageId IN (\
+                SELECT DISTINCT PackageId FROM dbo.QueryGroup \
+                    WHERE Name = (\
+                SELECT Name FROM dbo.QueryGroup \
+                    WHERE PackageId = (\
+                SELECT DISTINCT PackageId FROM dbo.QueryVersion \
+                    WHERE QueryId = ?)\
+                ) and PackageId > 100000\
+                ) and Name = (\
+                SELECT DISTINCT Name FROM dbo.QueryVersion \
+                    WHERE QueryId = ?)\
+                )",
+                        (severity_id, query_id, query_id))
+            conn.commit()
+            cursor.execute("UPDATE dbo.Query SET Severity = ? \
+                    WHERE QueryId IN (\
+                SELECT QueryId FROM dbo.Query \
+                    WHERE PackageId IN (\
+                SELECT DISTINCT PackageId FROM dbo.QueryGroup \
+                    WHERE Name = (\
+                SELECT Name FROM dbo.QueryGroup \
+                    WHERE PackageId = (\
+                SELECT DISTINCT PackageId FROM dbo.Query \
+                    WHERE QueryId = ?)\
+                ) and PackageId > 100000\
+                ) and Name = (\
+                SELECT DISTINCT Name FROM dbo.Query \
+                    WHERE QueryId = ?)\
+                )",
+                        (severity_id, query_id, query_id))
+            conn.commit()
+            print("Updating Customized Queries Severity", severity_id,
+                "- Query ID -", query_id)
+        else:
+            print("No existing customized queries for", query_id)
+        return True
+    else:
+        raise AttributeError(
+            "Connection object bwas not provided")
 
 
 def main(args):
@@ -406,15 +470,18 @@ def main(args):
                                 conn, category_type_id, group)
                             if "query_ids" in group and "name" in group and \
                                     "severity_id" in group:
+                                severity_id = group["severity_id"]
+                                group_name = group["name"]
                                 queries = get_queries(conn, group["query_ids"])
-                                print(group["name"], ":", len(queries),
+                                print(group_name, ":", len(queries),
                                       "queries to change")
-                                insert_queries(conn, category_id, queries)
+                                insert_queries(conn, category_id,
+                                               severity_id, queries)
                                 update_category_severity_mapping(
                                     conn,
-                                    group["severity_id"],
+                                    severity_id,
                                     category_name,
-                                    group["name"])
+                                    group_name)
                             else:
                                 print("Group has 1 missing attribute: name\
                                     query_ids or severity_id")

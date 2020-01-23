@@ -1,5 +1,29 @@
 __author__ = 'miguel.freitas@checkmarx.com'
 
+from add_custom_category import is_str
+from add_custom_category import is_int
+from add_custom_category import is_conn
+from add_custom_category import read_file
+from add_custom_category import connect_to_db
+from add_custom_category import get_category_type_id_by_name
+from add_custom_category import add_category_type_by_name
+from add_custom_category import check_category_type_by_name
+from add_custom_category import delete_categories_by_category_type_id
+from add_custom_category import \
+    delete_categories_for_queries_by_category_type_id
+from add_custom_category import clean_old_data
+from add_custom_category import add_category
+from add_custom_category import get_category_id
+from add_custom_category import add_category_for_query
+from add_custom_category import get_categories_by_category_type_id_and_name
+from add_custom_category import insert_new_categories
+from add_custom_category import get_queries
+from add_custom_category import get_categories_ids_by_category_type
+from add_custom_category import insert_queries
+from add_custom_category import get_args
+from add_custom_category import main
+from collections import namedtuple
+import pytest
 import os
 import sys
 import inspect
@@ -10,31 +34,6 @@ currentdir = os.path.dirname(
     ))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
-
-import pytest
-from collections import namedtuple
-from add_custom_category import main
-from add_custom_category import get_args
-from add_custom_category import insert_queries
-from add_custom_category import get_categories_ids_by_category_type
-from add_custom_category import get_queries
-from add_custom_category import insert_new_categories
-from add_custom_category import get_categories_by_category_type_id_and_name
-from add_custom_category import add_category_for_query
-from add_custom_category import get_category_id
-from add_custom_category import add_category
-from add_custom_category import clean_old_data
-from add_custom_category import \
-    delete_categories_for_queries_by_category_type_id
-from add_custom_category import delete_categories_by_category_type_id
-from add_custom_category import check_category_type_by_name
-from add_custom_category import add_category_type_by_name
-from add_custom_category import get_category_type_id_by_name
-from add_custom_category import connect_to_db
-from add_custom_category import read_file
-from add_custom_category import is_conn
-from add_custom_category import is_int
-from add_custom_category import is_str
 
 
 # import pyodbc
@@ -321,16 +320,16 @@ def test_insert_queries():
     with pytest.raises(AttributeError,
                        match="Connection object or Category ID \
                 was not provided"):
-        assert insert_queries(None, None, None)
-        assert insert_queries(True, True, True)
-        assert insert_queries(False, False, False)
-        assert insert_queries(0, 0, 0)
-        assert insert_queries(1, 1, 1)
-        assert insert_queries(-1, -1, -1)
-        assert insert_queries(1.1, 1.1, 1.1)
-        assert insert_queries([], [], [])
-        assert insert_queries({}, {}, {})
-        assert insert_queries("", "", "")
+        assert insert_queries(None, None, None, None)
+        assert insert_queries(True, True, True, True)
+        assert insert_queries(False, False, False, False)
+        assert insert_queries(0, 0, 0, 0)
+        assert insert_queries(1, 1, 1, 1)
+        assert insert_queries(-1, -1, -1, -1)
+        assert insert_queries(1.1, 1.1, 1.1, 1.1)
+        assert insert_queries([], [], [], [])
+        assert insert_queries({}, {}, {}, {})
+        assert insert_queries("", "", "", "")
 
 
 def test_get_categories_ids_by_category_type():
