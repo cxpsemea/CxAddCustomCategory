@@ -4,6 +4,7 @@
         "groups": [
             {
                 "name": "Category Critical",
+                "severity_id": 3,
                 "queryIds": [
                     3717,
                     2277,
@@ -13,6 +14,7 @@
             },
             {
                 "name": "Category High",
+                "severity_id": 2,
                 "queryIds": [
                     1670,
                     1672,
@@ -22,6 +24,7 @@
             },
             {
                 "name": "Category Medium",
+                "severity_id": 1,
                 "queryIds": [
                     628,
                     4593,
@@ -31,6 +34,7 @@
             },
             {
                 "name": "Category Low",
+                "severity_id": 0,
                 "queryIds": [
                     1671,
                     627,

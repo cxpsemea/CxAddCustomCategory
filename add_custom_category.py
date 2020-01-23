@@ -334,6 +334,32 @@ def get_args(args):
         raise AttributeError("args should be a non-empty array")
 
 
+def update_category_severity_mapping(conn, severity_id,
+                                     category_name, group_name):
+    if is_conn(conn) and is_int(severity_id) and is_str(category_name) and \
+            is_str(group_name):
+        cursor = conn.cursor()
+        cursor.execute("UPDATE Queries \
+            SET Queries.Severity = ? \
+            FROM [CxDB].[dbo].[Categories] Categories \
+            JOIN [CxDB].[dbo].[CategoryForQuery] CategoriesForQuery \
+                ON Categories.Id=CategoriesForQuery.CategoryId \
+            JOIN [CxDB].[dbo].[Query] Queries \
+                ON CategoriesForQuery.QueryId=Queries.QueryId \
+            JOIN [CxDB].[dbo].[CategoriesTypes] CategoriesTypes \
+                ON Categories.CategoryType = CategoriesTypes.Id \
+            WHERE Categories.CategoryName = ? \
+            AND CategoriesTypes.TypeName = ?",
+                       (severity_id, group_name, category_name))
+        conn.commit()
+        print("Updating Severity Mapping for Severity", severity_id,
+              "-", group_name, "-", category_name)
+    else:
+        raise AttributeError(
+            "Connection object or Category ID \
+                was not provided")
+
+
 def main(args):
     if args is not None and hasattr(args, "file_groups"):
         file_groups = args.file_groups
@@ -369,6 +395,12 @@ def main(args):
                             print(group["name"], ":", len(queries),
                                   "queries to change")
                             insert_queries(conn, category_id, queries)
+                            update_category_severity_mapping(
+                                conn,
+                                group["severity_id"],
+                                category_name,
+                                group["name"])
+
                     else:
                         raise Exception("Cannot connect to Database")
                 else:

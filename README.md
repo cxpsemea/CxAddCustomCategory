@@ -27,6 +27,7 @@ For using this script, there is a set of inputs that are required to be passed a
         "groups": [
             {
                 "name": "Category Critical",
+                "severity_id": 3,
                 "queryIds": [
                     3717,
                     2277,
@@ -36,6 +37,7 @@ For using this script, there is a set of inputs that are required to be passed a
             },
             {
                 "name": "Category High",
+                "severity_id": 2,
                 "queryIds": [
                     1670,
                     1672,
@@ -45,6 +47,7 @@ For using this script, there is a set of inputs that are required to be passed a
             },
             {
                 "name": "Category Medium",
+                "severity_id": 1,
                 "queryIds": [
                     628,
                     4593,
@@ -54,6 +57,7 @@ For using this script, there is a set of inputs that are required to be passed a
             },
             {
                 "name": "Category Low",
+                "severity_id": 0,
                 "queryIds": [
                     1671,
                     627,
@@ -121,8 +125,7 @@ Command Output Generated:
 
 ```log
 Connection to CxDB success
-Category Type  My Custom Category  does not exist.
-Creating category type : My Custom Category - ID: 8
+Category already exists : My Custom Category - ID: 8
 Clearing old data...
 
 New Category Inserted :  (72, 'Category Critical', 8)
@@ -131,6 +134,7 @@ Inserting Query 1678 ... 0.0 %
 Inserting Query 2277 ... 25.0 %
 Inserting Query 3717 ... 50.0 %
 Inserting Query 3885 ... 75.0 %
+Updating Severity Mapping for Severity 3 - Category Critical - My Custom Category
 
 New Category Inserted :  (73, 'Category High', 8)
 Category High : 4 queries to change
@@ -138,6 +142,7 @@ Inserting Query 630 ... 0.0 %
 Inserting Query 633 ... 25.0 %
 Inserting Query 1670 ... 50.0 %
 Inserting Query 1672 ... 75.0 %
+Updating Severity Mapping for Severity 2 - Category High - My Custom Category
 
 New Category Inserted :  (74, 'Category Medium', 8)
 Category Medium : 4 queries to change
@@ -145,6 +150,7 @@ Inserting Query 628 ... 0.0 %
 Inserting Query 639 ... 25.0 %
 Inserting Query 4593 ... 50.0 %
 Inserting Query 5370 ... 75.0 %
+Updating Severity Mapping for Severity 1 - Category Medium - My Custom Category
 
 New Category Inserted :  (75, 'Category Low', 8)
 Category Low : 4 queries to change
@@ -152,6 +158,7 @@ Inserting Query 627 ... 0.0 %
 Inserting Query 1671 ... 25.0 %
 Inserting Query 3771 ... 50.0 %
 Inserting Query 3896 ... 75.0 %
+Updating Severity Mapping for Severity 0 - Category Low - My Custom Category
 ```
 
 # Additional Scripts for retrieving customized queries
