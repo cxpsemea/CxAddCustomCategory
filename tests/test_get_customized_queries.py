@@ -1,14 +1,5 @@
 __author__ = 'miguel.freitas@checkmarx.com'
 
-from get_customized_queries import is_str
-from get_customized_queries import is_int
-from get_customized_queries import is_conn
-from get_customized_queries import connect_to_db
-from get_customized_queries import write_queries_to_file
-from get_customized_queries import get_customized_queries
-from get_customized_queries import get_args
-from get_customized_queries import main
-
 import pytest
 import os
 import sys
@@ -20,6 +11,15 @@ currentdir = os.path.dirname(
     ))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
+
+from get_customized_queries import is_str
+from get_customized_queries import is_int
+from get_customized_queries import is_conn
+from get_customized_queries import connect_to_db
+from get_customized_queries import write_queries_to_file
+from get_customized_queries import get_customized_queries
+from get_customized_queries import get_args
+from get_customized_queries import main
 
 
 # import pyodbc
