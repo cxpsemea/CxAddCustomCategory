@@ -217,33 +217,6 @@ def add_category_for_query(conn, category_id, query_id):
                 was not provided")
 
 
-def update_category_for_query(conn, category_id, query_id):
-    if is_conn(conn) and is_int(category_id) and is_int(query_id):
-        cursor = conn.cursor()
-        try:
-            cursor.execute("SELECT * FROM dbo.CategoryForQuery WHERE \
-                CategoryId=? AND QueryId=?",
-                           (category_id, query_id))
-            rows = cursor.fetchall()
-            if len(rows[0]) == 0:
-                cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery ON")
-                conn.commit()
-                cursor.execute("INSERT INTO dbo.CategoryForQuery \
-                    (Id,QueryId,CategoryId) VALUES\
-                    ((SELECT max(Id)+1 FROM dbo.CategoryForQuery),?,?)",
-                               (query_id, category_id))
-                conn.commit()
-                cursor.execute("SET IDENTITY_INSERT dbo.CategoryForQuery OFF")
-                conn.commit()
-            return True
-        except Exception as error:
-            raise Exception(error)
-    else:
-        raise AttributeError(
-            "Connection object or Category ID or Query ID \
-                was not provided")
-
-
 def get_categories_by_category_type_id_and_name(conn,
                                                 category_name,
                                                 category_type_id):
@@ -336,19 +309,6 @@ def insert_queries(conn, category_id, queries):
                 was not provided")
 
 
-def update_queries(conn, category_id, queries):
-    if is_conn(conn) and is_int(category_id) and len(queries) > 0:
-        i = 0
-        for query in queries:
-            query_id = query[0]
-            update_category_for_query(conn, category_id, query_id)
-            i = i + 1
-    else:
-        raise AttributeError(
-            "Connection object or Category ID \
-                was not provided")
-
-
 def get_args(args):
     if isinstance(args, list) and len(args) > 0:
         args_parser = argparse.ArgumentParser(
@@ -409,7 +369,6 @@ def main(args):
                             print(group["name"], ":", len(queries),
                                   "queries to change")
                             insert_queries(conn, category_id, queries)
-                            update_queries(conn, category_id, queries)
                     else:
                         raise Exception("Cannot connect to Database")
                 else:

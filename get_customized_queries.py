@@ -24,7 +24,8 @@ def is_conn(conn):
 
 
 def write_queries_to_file(queries, f):
-    if f and queries and isinstance(queries, list) and len(queries) > 0 and is_str(f):
+    if f and queries and isinstance(queries, list) and \
+            len(queries) > 0 and is_str(f):
         if f.endswith(".json"):
             data = {}
             data['queries'] = []
@@ -126,7 +127,8 @@ def get_args(args):
                                  help='Checkmarx MSSQL DB Server URL',
                                  required=True)
         args_parser.add_argument('-f', '--file',
-                                 help='File Name to write customized queries (.json extension)',
+                                 help='File Name to write customized \
+                                     queries (.json extension)',
                                  required=False,
                                  default='customized_queries.json')
         return args_parser.parse_args(args)

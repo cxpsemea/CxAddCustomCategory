@@ -15,13 +15,11 @@ import pytest
 from collections import namedtuple
 from add_custom_category import main
 from add_custom_category import get_args
-from add_custom_category import update_queries
 from add_custom_category import insert_queries
 from add_custom_category import get_categories_ids_by_category_type
 from add_custom_category import get_queries
 from add_custom_category import insert_new_categories
 from add_custom_category import get_categories_by_category_type_id_and_name
-from add_custom_category import update_category_for_query
 from add_custom_category import add_category_for_query
 from add_custom_category import get_category_id
 from add_custom_category import add_category
@@ -271,22 +269,6 @@ def test_add_category_for_query():
         assert add_category_for_query("", "", "")
 
 
-def test_update_category_for_query():
-    with pytest.raises(AttributeError,
-                       match="Connection object or Category ID or Query ID \
-                was not provided"):
-        assert update_category_for_query(None, None, None)
-        assert update_category_for_query(True, True, True)
-        assert update_category_for_query(False, False, False)
-        assert update_category_for_query(0, 0, 0)
-        assert update_category_for_query(1, 1, 1)
-        assert update_category_for_query(-1, -1, -1)
-        assert update_category_for_query(1.1, 1.1, 1.1)
-        assert update_category_for_query([], [], [])
-        assert update_category_for_query({}, {}, {})
-        assert update_category_for_query("", "", "")
-
-
 def test_get_categories_by_category_type_id_and_name():
     with pytest.raises(AttributeError,
                        match="Connection object or Category ID or Query ID \
@@ -365,22 +347,6 @@ def test_get_categories_ids_by_category_type():
         assert get_categories_ids_by_category_type([], [])
         assert get_categories_ids_by_category_type({}, {})
         assert get_categories_ids_by_category_type("", "")
-
-
-def test_update_queries():
-    with pytest.raises(AttributeError,
-                       match="Connection object or Category ID \
-                was not provided"):
-        assert update_queries(None, None, None)
-        assert update_queries(True, True, True)
-        assert update_queries(False, False, False)
-        assert update_queries(0, 0, 0)
-        assert update_queries(1, 1, 1)
-        assert update_queries(-1, -1, -1)
-        assert update_queries(1.1, 1.1, 1.1)
-        assert update_queries([], [], [])
-        assert update_queries({}, {}, {})
-        assert update_queries("", "", "")
 
 
 def test_get_args():
