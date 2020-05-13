@@ -35,7 +35,7 @@ jobs:
       run: |
         ls -la
     - name: Checkmarx SAST Scan
-      uses: miguelfreitas93/checkmarx-github-action@v1.0.0
+      uses: checkmarx-ts/checkmarx-github-action@v1.0.0
       with:
         cxAction: Scan
         cxServer: ${{ secrets.CX_SERVER }}
@@ -43,6 +43,7 @@ jobs:
         cxPassword: ${{ secrets.CX_PASSWORD }}
         cxTeam: ${{ secrets.CX_TEAM }}
         cxPreset: All
+        cxProject: CxAddCustomCategory
         cxExcludeFolders: "tests,.vscode,.github,images,__pycache__,.pytest_cache,cxcli"
         cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
         cxHigh: 0
