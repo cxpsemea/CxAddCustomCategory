@@ -76,14 +76,14 @@ For using this script, there is a set of inputs that are required to be passed a
 | ------------- | ------------- | ------------- |
 | Checkmarx | Checkmarx SAST | 8.8</br>8.9 |
 | Language | Python | 3.8 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.8/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)</br>3.7 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.7/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)</br>3.6 [![Tests](https://github.com/miguelfreitas93/CxAddCustomCategory/workflows/Checkmarx%20Add%20Custom%20Category%20-%20Python%203.6/badge.svg)](https://github.com/miguelfreitas93/CxAddCustomCategory/actions)| 
-| requirements.txt | <a href="https://pypi.org/project/pyodbc/">pyodbc</a> | 4.0.28 | 
+| requirements.txt | <a href="https://pypi.org/project/pyodbc/">pyodbc</a> | 4.0.30 | 
 | Database | MSSQL Driver | SQL Server, but is configurable as argument |
 | Package Installer | pip | Relative to Python version |
 
 This Python script contains some dependencies that you can find in **"requirements.txt"** file:
 
 ```txt
-pyodbc==4.0.28
+pyodbc==4.0.30
 ```
 
 Before executing the Python script is required to install the dependencies, with following command (assure you have CMD opened with Admin permissions, if required):
