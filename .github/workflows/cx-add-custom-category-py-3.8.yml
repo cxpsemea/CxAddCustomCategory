@@ -30,25 +30,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=tests/*
     - name: Test with pytest
       run: |
-        pytest -vx    
-    - name: List files in workspace
-      run: |
-        ls -la
-    - name: Checkmarx SAST Scan
-      uses: checkmarx-ts/checkmarx-github-action@v1.0.0
-      with:
-        cxAction: Scan
-        cxServer: ${{ secrets.CX_SERVER }}
-        cxUsername: ${{ secrets.CX_EMAIL }}
-        cxPassword: ${{ secrets.CX_PASSWORD }}
-        cxTeam: ${{ secrets.CX_TEAM }}
-        cxPreset: All
-        cxProject: CxAddCustomCategory
-        cxExcludeFolders: "tests,.vscode,.github,images,__pycache__,.pytest_cache,cxcli"
-        cxExcludeFiles: "*.md,*.json,.gitignore,LICENSE"
-        cxHigh: 0
-        cxMedium: 0
-        cxLog: log.log
+        pytest -vx
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
