@@ -104,6 +104,8 @@ Add Custom Category to CxDB
 
 optional arguments:
   -h, --help            show this help message and exit
+  -dbd DBDRIVER, --dbdriver DBDRIVER
+                        Checkmarx MSSQL DB Driver
   -dbu DBUSER, --dbuser DBUSER
                         Checkmarx MSSQL DB Username
   -dbp DBPASSWORD, --dbpassword DBPASSWORD
