@@ -32,7 +32,7 @@ jobs:
       run: |
         pytest -vx
     - name: Upload artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v2.3.0
       with:
         name: log.log
         path: log.log
