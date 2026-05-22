@@ -5,15 +5,18 @@ on:
     branches: 
       - master
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: cx-public-ubuntu-x64
 
     steps:
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
     - name: Set up Python 3.8
-      uses: actions/setup-python@v2.3.2
+      uses: actions/setup-python@7f80679172b057fc5e90d70d197929d454754a5a # v2.3.2
       with:
         python-version: 3.8
     - name: Install dependencies
@@ -32,7 +35,7 @@ jobs:
       run: |
         pytest -vx
     - name: Upload artifact
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # v2.3.1
       with:
         name: log.log
         path: log.log
